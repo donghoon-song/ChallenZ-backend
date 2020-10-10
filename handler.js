@@ -98,6 +98,44 @@ const createChallenge = (event, context, callback) => {
               }
             )
               .then((challenge) => {
+                Avatar.findById(body.avatarId)
+                  .populate("messageTriggerList")
+                  .exec(function (err, avatar) {
+                    const startMessageTrigger = avatar.messageTriggerList.find(
+                      (messageTrigger) => {
+                        return messageTrigger.type === "start";
+                      }
+                    );
+                    console.log("startMessageTrigger : ", startMessageTrigger);
+                    if (startMessageTrigger) {
+                      Message.create({
+                        avatarUrl: startMessageTrigger.avatarUrl,
+                        contents: startMessageTrigger.contents,
+                      }).then((message) =>
+                        Challenge.findByIdAndUpdate(challenge._id, {
+                          $push: { messageList: message },
+                        })
+                          .then(() => {
+                            callback(null, {
+                              statusCode: 200,
+                              body: JSON.stringify(challenge),
+                            });
+                          })
+                          .catch((err) =>
+                            callback(null, {
+                              statusCode: err.statusCode || 500,
+                              body: JSON.stringify(err),
+                            })
+                          )
+                          .catch((err) =>
+                            callback(null, {
+                              statusCode: err.statusCode || 500,
+                              body: JSON.stringify(err),
+                            })
+                          )
+                      );
+                    }
+                  });
                 callback(null, {
                   statusCode: 200,
                   body: JSON.stringify(challenge),
