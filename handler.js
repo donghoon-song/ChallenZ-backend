@@ -130,6 +130,7 @@ const getChallenge = (event, context, callback) => {
   connectToDatabase().then(() => {
     Challenge.findById(event.pathParameters.id)
       .populate("messageList")
+      .populate("avatar")
       .then((challenge) => {
         console.log(challenge);
         callback(null, {
@@ -150,6 +151,7 @@ const getChallengeList = (event, context, callback) => {
   connectToDatabase().then(() => {
     Challenge.find()
       .populate("messageList")
+      .populate("avatar")
       .then((challengeList) =>
         callback(null, {
           statusCode: 200,
