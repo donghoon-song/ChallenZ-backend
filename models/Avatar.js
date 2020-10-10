@@ -6,6 +6,10 @@ const AvatarSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
   avatarUrl: {
     type: String,
     required: true,
