@@ -9,41 +9,89 @@ provider:
   region: ap-northeast-2
 
 functions: # add 4 functions for CRUD
-  create:
-    handler: handler.create # point to exported create function in handler.js
+  createAvatar:
+    handler: handler.createAvatar # point to exported create function in handler.js
     events:
       - http:
-          path: notes # path will be domain.name.com/dev/notes
+          path: avatar # path will be domain.name.com/dev/notes
           method: post
           cors: true
-  getOne:
-    handler: handler.getOne
+  getAvatar:
+    handler: handler.getAvatar # point to exported create function in handler.js
     events:
       - http:
-          path: notes/{id} # path will be domain.name.com/dev/notes/1
+          path: avatar/{id} # path will be domain.name.com/dev/notes
           method: get
           cors: true
-  getAll:
-    handler: handler.getAll # path will be domain.name.com/dev/notes
+  getAvatarList:
+    handler: handler.getAvatarList # point to exported create function in handler.js
     events:
       - http:
-          path: notes
+          path: avatarList # path will be domain.name.com/dev/notes
           method: get
           cors: true
-  update:
-    handler: handler.update # path will be domain.name.com/dev/notes/1
+  createChallenge:
+    handler: handler.createChallenge # point to exported create function in handler.js
     events:
       - http:
-          path: notes/{id}
-          method: put
+          path: challenge # path will be domain.name.com/dev/notes
+          method: post
           cors: true
-  delete:
-    handler: handler.delete
+  getChallenge:
+    handler: handler.getChallenge # point to exported create function in handler.js
     events:
       - http:
-          path: notes/{id} # path will be domain.name.com/dev/notes/1
-          method: delete
+          path: challenge/{id} # path will be domain.name.com/dev/notes
+          method: get
           cors: true
-
+  getChallengeList:
+    handler: handler.getChallengeList # point to exported create function in handler.js
+    events:
+      - http:
+          path: challengeList # path will be domain.name.com/dev/notes
+          method: get
+          cors: true
+  createMessageTrigger:
+    handler: handler.createMessageTrigger # point to exported create function in handler.js
+    events:
+      - http:
+          path: messageTrigger # path will be domain.name.com/dev/notes
+          method: post
+          cors: true
+  getMessageTrigger:
+    handler: handler.getMessageTrigger # point to exported create function in handler.js
+    events:
+      - http:
+          path: messageTrigger # path will be domain.name.com/dev/notes
+          method: get
+          cors: true
+  getMessageTriggerList:
+    handler: handler.getMessageTriggerList # point to exported create function in handler.js
+    events:
+      - http:
+          path: messageTriggerList # path will be domain.name.com/dev/notes
+          method: get
+          cors: true
+  createMessage:
+    handler: handler.createMessage # point to exported create function in handler.js
+    events:
+      - http:
+          path: message # path will be domain.name.com/dev/notes
+          method: post
+          cors: true
+  getMessageList:
+    handler: handler.getMessageList # point to exported create function in handler.js
+    events:
+      - http:
+          path: messageList/{challengeId} # path will be domain.name.com/dev/notes
+          method: get
+          cors: true
+  getTriggerList:
+    handler: handler.getTriggerList # point to exported create function in handler.js
+    events:
+      - http:
+          path: triggerList/{challengeId} # path will be domain.name.com/dev/notes
+          method: get
+          cors: true
 plugins:
   - serverless-offline # adding the plugin to be able to run the offline emulation
