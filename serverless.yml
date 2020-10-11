@@ -48,7 +48,7 @@ functions: # add 4 functions for CRUD
     handler: handler.getChallengeList # point to exported create function in handler.js
     events:
       - http:
-          path: challengeList # path will be domain.name.com/dev/notes
+          path: challengeList/{today} # path will be domain.name.com/dev/notes
           method: get
           cors: true
   createMessageTrigger:

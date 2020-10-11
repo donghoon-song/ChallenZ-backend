@@ -187,16 +187,17 @@ const getChallenge = (event, context, callback) => {
 };
 
 const getChallengeList = (event, context, callback) => {
+  const today = event.pathParameters.today;
   connectToDatabase().then(() => {
-    Challenge.find()
+    Challenge.find({ startAt: { $lte: today }, endAt: { $gte: today } })
       .populate("messageList")
       .populate("avatar")
-      .then((challengeList) =>
-        callback(null, {
+      .then((challengeList) => {
+        return callback(null, {
           statusCode: 200,
           body: JSON.stringify(challengeList),
-        })
-      )
+        });
+      })
       .catch((err) =>
         callback(null, {
           statusCode: err.statusCode || 500,
