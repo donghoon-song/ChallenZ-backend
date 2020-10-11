@@ -93,5 +93,12 @@ functions: # add 4 functions for CRUD
           path: triggerList/{challengeId} # path will be domain.name.com/dev/notes
           method: get
           cors: true
+  readMessage:
+    handler: handler.readMessage # point to exported create function in handler.js
+    events:
+      - http:
+          path: challenge/read # path will be domain.name.com/dev/notes
+          method: post
+          cors: true
 plugins:
   - serverless-offline # adding the plugin to be able to run the offline emulation

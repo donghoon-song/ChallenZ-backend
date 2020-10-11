@@ -83,6 +83,7 @@ const createChallenge = (event, context, callback) => {
           startAt: body.startAt,
           endAt: body.endAt,
           avatar: null,
+          unread: true,
         })
           .then((challenge) => {
             challengeId = challenge._id;
@@ -401,6 +402,24 @@ const getTriggerList = (event, context, callback) => {
   });
 };
 
+const readMessage = (event, context, callback) => {
+  connectToDatabase().then(() => {
+    const challengeId = JSON.parse(event.body).challengeId;
+    Challenge.findByIdAndUpdate(challengeId, { $set: { unread: false } })
+      .then(() => {
+        callback(null, {
+          statusCode: 200,
+        });
+      })
+      .catch((err) =>
+        callback(null, {
+          statusCode: err.statusCode || 500,
+          body: JSON.stringify(err),
+        })
+      );
+  });
+};
+
 module.exports = {
   createAvatar: apiWrapper(createAvatar),
   getAvatar: apiWrapper(getAvatar),
@@ -414,4 +433,5 @@ module.exports = {
   createMessage: apiWrapper(createMessage),
   getMessageList: apiWrapper(getMessageList),
   getTriggerList: apiWrapper(getTriggerList),
+  readMessage: apiWrapper(readMessage),
 };

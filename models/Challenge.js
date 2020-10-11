@@ -16,6 +16,9 @@ const ChallengeSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    unread: {
+      type: Boolean,
+    },
     avatar: {
       type: Schema.Types.ObjectId,
       ref: "Avatar",
