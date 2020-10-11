@@ -1,5 +1,6 @@
 const middy = require("@middy/core");
 const cors = require("@middy/http-cors");
+const dayjs = require("dayjs");
 const connectToDatabase = require("./db");
 const Note = require("./models/Note");
 const Avatar = require("./models/Avatar");
@@ -188,8 +189,17 @@ const getChallenge = (event, context, callback) => {
 
 const getChallengeList = (event, context, callback) => {
   const today = event.pathParameters.today;
+  const yesterday = dayjs(today).subtract(1, "day");
+  const tomorrow = dayjs(today).add(1, "day");
   connectToDatabase().then(() => {
-    Challenge.find({ startAt: { $lte: today }, endAt: { $gte: today } })
+    Challenge.find({
+      startAt: {
+        $lte: tomorrow,
+      },
+      endAt: {
+        $gte: today,
+      },
+    })
       .populate("messageList")
       .populate("avatar")
       .then((challengeList) => {
